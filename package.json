@@ -1,0 +1,19 @@
+{
+  "name": "fashion-place",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Full-stack e-commerce application for fashion products",
+  "workspaces": [
+    "api",
+    "client",
+    "admin"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace=api & npm run dev --workspace=client",
+    "build": "npm run build --workspace=client && npm run build --workspace=admin",
+    "api": "npm run dev --workspace=api",
+    "client": "npm run dev --workspace=client",
+    "admin": "npm run dev --workspace=admin",
+    "install:all": "npm install"
+  }
+}
