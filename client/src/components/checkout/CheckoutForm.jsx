@@ -5,6 +5,7 @@ import { CheckCircle, ChevronRight, CreditCard, X } from 'react-feather'
 import api from '@/services/api'
 import config from '@/config'
 import Button from '@/components/common/Button'
+import Input from '@/components/common/Input'
 import Loader from "@/components/common/Loader"
 import { UserContext } from '@/context'
 
@@ -19,6 +20,8 @@ function loadRazorpayScript() {
   })
 }
 
+const emptyAddress = { street: '', city: '', state: '', zip: '' }
+
 export default function CheckoutForm({ onCancel, onSuccess, addToast }) {
   const [succeeded, setSucceeded] = useState(false)
   const [error, setError] = useState(null)
@@ -26,6 +29,7 @@ export default function CheckoutForm({ onCancel, onSuccess, addToast }) {
   const [orderDetails, setOrderDetails] = useState({})
   const [razorpayOrderId, setRazorpayOrderId] = useState(null)
   const [orderAmount, setOrderAmount] = useState(null)
+  const [address, setAddress] = useState(emptyAddress)
   const { user } = useContext(UserContext)
 
   useEffect(() => {
@@ -45,7 +49,16 @@ export default function CheckoutForm({ onCancel, onSuccess, addToast }) {
     })()
   }, [])
 
+  const setAddressField = (field) => (e) => {
+    setAddress(prev => ({ ...prev, [field]: e.target.value }))
+  }
+
   const handlePayment = async () => {
+    if (!address.street || !address.city || !address.state || !address.zip) {
+      setError('Please fill in your shipping address')
+      return
+    }
+
     const loaded = await loadRazorpayScript()
     if (!loaded) {
       setError("Failed to load Razorpay SDK. Check your internet connection.")
@@ -72,7 +85,7 @@ export default function CheckoutForm({ onCancel, onSuccess, addToast }) {
             response.razorpay_order_id,
             response.razorpay_payment_id,
             response.razorpay_signature,
-            { street: "abc street", city: "abc city", state: "abc state", zip: "abc zip" }
+            address
           )
           if (resp.status === "ok") {
             setProcessing(false)
@@ -145,6 +158,32 @@ export default function CheckoutForm({ onCancel, onSuccess, addToast }) {
           </ul>
           : <Loader color="bg-gray-600" />
         }
+      </section>
+
+      <section className='mb-4'>
+        <h4 className='text-md mb-3 font-medium'>Shipping Address</h4>
+        <Input
+          placeholder="Street address"
+          value={address.street}
+          onChange={setAddressField('street')}
+        />
+        <div className='flex gap-2 mt-2'>
+          <Input
+            placeholder="City"
+            value={address.city}
+            onChange={setAddressField('city')}
+          />
+          <Input
+            placeholder="State"
+            value={address.state}
+            onChange={setAddressField('state')}
+          />
+          <Input
+            placeholder="ZIP"
+            value={address.zip}
+            onChange={setAddressField('zip')}
+          />
+        </div>
       </section>
 
       {error && (

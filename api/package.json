@@ -15,7 +15,7 @@
     "prisma": "^7.9.0"
   },
   "dependencies": {
-    "@clerk/clerk-sdk-node": "^5.1.6",
+    "@clerk/clerk-sdk-node": "^4.13.23",
     "@prisma/adapter-pg": "^7.9.0",
     "@prisma/client": "^7.9.0",
     "compression": "^1.7.4",
