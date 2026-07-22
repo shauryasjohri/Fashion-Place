@@ -5,7 +5,6 @@ import { CheckCircle, ChevronRight, CreditCard, X } from 'react-feather'
 import api from '@/services/api'
 import config from '@/config'
 import Button from '@/components/common/Button'
-import Input from '@/components/common/Input'
 import Loader from "@/components/common/Loader"
 import { UserContext } from '@/context'
 
@@ -160,28 +159,36 @@ export default function CheckoutForm({ onCancel, onSuccess, addToast }) {
         }
       </section>
 
-      <section className='mb-4'>
+      <section className='mb-6 border border-gray-200 dark:border-gray-600 rounded-lg p-4'>
         <h4 className='text-md mb-3 font-medium'>Shipping Address</h4>
-        <Input
+        <input
+          type="text"
           placeholder="Street address"
           value={address.street}
           onChange={setAddressField('street')}
+          className='w-full bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 rounded-lg p-2 mb-2 focus:outline-none focus:ring focus:ring-gray-300 dark:focus:ring-gray-500'
         />
-        <div className='flex gap-2 mt-2'>
-          <Input
+        <div className='flex gap-2'>
+          <input
+            type="text"
             placeholder="City"
             value={address.city}
             onChange={setAddressField('city')}
+            className='flex-1 min-w-0 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 rounded-lg p-2 focus:outline-none focus:ring focus:ring-gray-300 dark:focus:ring-gray-500'
           />
-          <Input
+          <input
+            type="text"
             placeholder="State"
             value={address.state}
             onChange={setAddressField('state')}
+            className='flex-1 min-w-0 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 rounded-lg p-2 focus:outline-none focus:ring focus:ring-gray-300 dark:focus:ring-gray-500'
           />
-          <Input
+          <input
+            type="text"
             placeholder="ZIP"
             value={address.zip}
             onChange={setAddressField('zip')}
+            className='w-24 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 rounded-lg p-2 focus:outline-none focus:ring focus:ring-gray-300 dark:focus:ring-gray-500'
           />
         </div>
       </section>
