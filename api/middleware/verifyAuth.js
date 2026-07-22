@@ -18,7 +18,7 @@ async function runClerkAuth(req, res, next) {
 
   let payload
   try {
-    payload = await clerkVerify(token)
+    payload = await clerkVerify(token, { secretKey: process.env.CLERK_SECRET_KEY })
   } catch (err) {
     return res.status(403).json({
       status: "error",
