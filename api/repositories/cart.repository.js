@@ -15,11 +15,12 @@ async function create(userId) {
 }
 
 async function findOrCreate(userId) {
-  let cart = await findByUserId(userId)
-  if (!cart) {
-    cart = await create(userId)
-  }
-  return cart
+  return prisma.cart.upsert({
+    where: { userId },
+    update: {},
+    create: { userId },
+    include: cartInclude,
+  })
 }
 
 async function findAll() {
